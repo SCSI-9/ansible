@@ -1,0 +1,28 @@
+---
+
+- name: Homework one part 3
+  hosts: all
+  user: ansible
+  become: yes
+  tasks:
+
+  - name: Check SELinux
+    lineinfile:
+     path: /etc/selinux/config
+     regexp: '^SELINUX='
+     line: SELINUX=enforcing
+
+  - name: add lines
+    lineinfile: 
+     dest: /etc/default/grub
+     line: '{{ item }}'
+    with_items:
+     - 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
+
+  - name: Make changes apply
+    shell: setenforce 0 && /usr/sbin/grub2-mkconfig
+    register: result
+
+  - name: Print result of previous task
+    debug:
+      var: result

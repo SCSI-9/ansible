@@ -1,0 +1,26 @@
+---
+
+- name: Task one part two
+  hosts: all
+  become: yes
+  user: ansible
+  tasks:
+
+
+  - name: "1. Uninstall HTTPD/Apache"
+    yum:
+      name: httpd
+      autoremove: yes
+      state: absent 
+
+  - name: delete index.html file
+    file:
+       path: /var/www/html/index.html
+       state: absent  
+
+  - name: Block ports
+    firewalld:
+       port: 80/tcp
+       permanent: true
+       state: disabled
+
