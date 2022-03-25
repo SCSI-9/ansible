@@ -12,9 +12,9 @@
           - httpd
         state: latest
 #task number two
-  - name: permit traffic in default zone for https service
+  - name: permit traffic in default zone for http service
     firewalld:
-      service: https
+      service: http
       permanent: yes
       state: enabled
 
@@ -23,6 +23,7 @@
       port: 80/tcp
       permanent: yes
       state: enabled
+#Create Welcome File
   - name: Cretae welcome file
     ansible.builtin.shell: echo "Welcome to my web server" >> /var/www/html/index.html
 #Start httpd service
@@ -38,7 +39,7 @@
      - httpd
     register: result
     ignore_errors: yes
-
+#Show Debug info
   - name: showing report
     debug:
      var: result  

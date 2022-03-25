@@ -20,7 +20,7 @@
      - 'GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"'
 
   - name: Make changes apply
-    shell: setenforce 0 && /usr/sbin/grub2-mkconfig
+    shell: /usr/sbin/grub2-mkconfig
     register: result
 
   - name: Print result of previous task
