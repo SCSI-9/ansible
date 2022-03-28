@@ -1,0 +1,9 @@
+---
+# defaults file for vsftpd-role
+service: vsftpd
+ftp_port: 21/tcp
+boolean: on
+allow: yes
+deny: no
+directory:  /var/ftp/pub/upload
+file: vsftpd.conf

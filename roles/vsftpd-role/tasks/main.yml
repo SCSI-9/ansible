@@ -1,0 +1,41 @@
+---
+# tasks file for vsftpd-role
+- name: Install ftpd
+  yum:
+   name:
+    - "{{ service }}"
+   state: latest  
+#
+- name: Turn on service for  selinux
+  shell: setsebool -P ftpd_anon_write 1
+#start service  
+- name: Start ftpd
+  shell: systemctl start "{{ service }}" 
+#
+- name: Open ports
+  firewalld:
+      port: "{{ ftp_port }}"
+      permanent: yes
+      state: enabled 
+#
+- name: create work dir
+  file:
+    path:  "{{ directory }}"
+    state: directory
+
+- name: Backup conf file
+  shell: cp /etc/vsftpd/vsftpd.conf /home/vsftpd-backup.conf
+#
+- name: Copy template file
+  template:
+       src: vsftpd.j2
+       dest: /etc/vsftpd/vsftpd.conf
+
+- name: Check service
+  shell: systemctl status vsftpd
+  register: status
+
+- name: Check status
+  debug:
+    var: status
+

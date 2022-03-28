@@ -1,0 +1,10 @@
+---
+
+- name: Run apache role
+  hosts: all
+  become: yes
+  user: ansible
+
+  roles:
+    - role: vsftpd-role 
+     
