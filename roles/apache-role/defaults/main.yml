@@ -1,0 +1,8 @@
+---
+# defaults file for apache-role
+
+service1: firewalld
+service2: httpd
+service3: http
+http_port: 80/tcp
+system_manager: adil@example.com

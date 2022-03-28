@@ -1,0 +1,42 @@
+---
+# tasks file for apache-role
+
+- name: Install services
+  yum:
+    name: 
+    - "{{ service1 }}"
+    - "{{ service2 }}" 
+    state: latest
+
+
+- name: permit traffic in default zone for http service
+  firewalld:
+    service: "{{ service3 }}" 
+    permanent: yes
+    state: enabled
+
+- name: Start Webserver
+  shell: systemctl status httpd
+  register: webserver_state
+
+- name: Check is webserver running
+  debug:
+     var: webserver_state
+
+- name: Copy index.html file
+  template:
+    src: index.j2 
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    notify:
+     - restart webserver
+
+- name: Open ports
+  firewalld:
+     port: "{{ http_port }}" 
+     permanent: yes
+     state: enabled
+
+
+    
